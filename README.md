@@ -1,11 +1,11 @@
 ## APP restaurantes Comandas
 # Objetivo
-El cliente escanea un QR colocado en la mesa, el cual lo redirige a una página web especifica del restaurante y con una mesa especifica.
-El cliente ver el menú y selecióna los productos que desea consumir, los cuales se agregan a una comanda.
-El mesero tiene asignada una mesa y puede ver la comanda de la mesa, agregar productos y cerrar la comanda.
-Los codigos QR son generados por el sistema y asignados a una mesa en específico.
-La aplicacion es una PWA y puede ser instalada en el celular del cliente o del mesero.
-El produto esta ubucado para restarantes pequeños y medianos que no cuenten con un sistema de comandas o que requieran uno en donde los clientes puedan participar.
+* El cliente escanea un QR colocado en la mesa, el cual lo redirige a una página web especifica del restaurante y con una mesa especifica.
+* El cliente ver el menú y selecióna los productos que desea consumir, los cuales se agregan a una comanda.
+* El mesero tiene asignada una mesa y puede ver la comanda de la mesa, agregar productos y cerrar la comanda.
+* Los codigos QR son generados por el sistema y asignados a una mesa en específico.
+* La aplicacion es una PWA y puede ser instalada en el celular del cliente o del mesero.
+* El produto esta ubucado para restarantes pequeños y medianos que no cuenten con un sistema de comandas o que requieran uno en donde los clientes puedan participar.
 
 # Opciones especiales
 El mesero puede destacar un producto en su celular y este se resaltará en la pantalla del cliente.
