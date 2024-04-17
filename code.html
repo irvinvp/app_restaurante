@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Restaurante</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <body
+    style="
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h4 id="msg">Codigo enviado</h4>
+    <script>
+      let url_base = window.location.origin;
+      let msg = document.getElementById("msg");
+      async function send_c() {
+        let cc = localStorage.getItem("cc");
+        cc = cc ? cc : "NA";
+        let r = await fetch(
+          url_base + "/cs/" + window.location.search.split("=")[1] + "/" + cc
+        );
+        if (r.status != 200) {
+          msg.innerText =
+            "Error al enviar el codigo, recupere la contraseña o registrese el usuario";
+          return;
+        }
+        r = await r.json();
+        if (r.code) {
+          localStorage.setItem("cc", r.code);
+        }
+        setTimeout(() => {
+          window.close();
+        }, 1000);
+      }
+      send_c();
+    </script>
+  </body>
+</html>

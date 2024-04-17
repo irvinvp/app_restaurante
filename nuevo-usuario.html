@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Restaurante</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <body
+    style="
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h4>Nuevo Usuario</h4>
+    <span id="qr1" style="display: none"
+      ><h5>Escanea el codigo QR para crear usuario</h5></span
+    >
+    <div id="qrcode"></div>
+    <!--Input with email-->
+    <input type="email" id="email" placeholder="Email" />
+    <!--Button to send the email-->
+    <button id="register" onclick="register()" style="margin-top: 1rem">
+      Registrar usuario
+    </button>
+    <script>
+      async function register() {
+        let email = document.getElementById("email").value;
+        let url_base = window.location.origin;
+        let response = await fetch(url_base + "/resgister/" + email);
+        if (response.status != 200) {
+          alert("Error al enviar el correo");
+          return;
+        }
+        let code = await response.text();
+        document.getElementById("qr1").style.display = "block";
+        document.getElementById("register").style.display = "none";
+        document.getElementById("email").style.display = "none";
+        new QRCode(document.getElementById("qrcode"), {
+          text: window.location.origin + "/c?c=" + code,
+          width: 200,
+          height: 200,
+          correctLevel: QRCode.CorrectLevel.Q,
+        });
+        let r = await fetch(url_base + "/auth/" + code);
+        if (r.status != 200) {
+          register();
+          return;
+        }
+        r = await r.json();
+        localStorage.setItem("pcc", r.code);
+        window.location.href = url_base + "/home";
+      }
+    </script>
+  </body>
+</html>

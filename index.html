@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Restaurante</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <body
+    style="
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h4>Restaurante APP</h4>
+    <h5>Escanea el codigo QR para iniciar sesion</h5>
+    <div id="qrcode"></div>
+    <button onclick="new_user()" style="margin-top: 1rem">
+      Registrar nuevo usuario
+    </button>
+  </body>
+  <script>
+    let url_base = window.location.origin;
+    let pcc = localStorage.getItem("pcc");
+    if (pcc) {
+      auth_check();
+    } else {
+      logini();
+      setInterval(() => {
+        logini();
+      }, 60000);
+    }
+    async function logini() {
+      let code = await (await fetch(url_base + "/get-code")).text();
+      document.getElementById("qrcode").innerHTML = "";
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: window.location.origin + "/c?c=" + code,
+        width: 200,
+        height: 200,
+        correctLevel: QRCode.CorrectLevel.Q,
+      });
+      let r = await fetch(url_base + "/auth/" + code);
+      if (r.status != 200) {
+        return;
+      }
+      r = await r.json();
+      localStorage.setItem("pcc", r.code);
+      window.location.href = url_base + "/home";
+    }
+    async function auth_check() {
+      let r = await fetch(url_base + "/auth_check/" + pcc);
+      if (r.status != 200) {
+        localStorage.removeItem("pcc");
+        window.location.href = url_base + "/";
+      }
+      window.location.href = url_base + "/home";
+    }
+    function new_user() {
+      window.location.href = url_base + "/nuevo-usuario.html";
+    }
+  </script>
+</html>

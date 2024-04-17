@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Restaurante</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <body
+    style="
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h4>Restaurante APP Home</h4>
+    <script>
+      let url_base = window.location.origin;
+      let pcc = localStorage.getItem("pcc");
+      if (pcc) {
+        auth_check();
+        setInterval(() => {
+          auth_check();
+        }, 30000);
+      } else {
+        window.location.href = url_base + "/";
+      }
+      async function auth_check() {
+        let r = await fetch(url_base + "/auth_check/" + pcc);
+        if (r.status != 200) {
+          localStorage.removeItem("pcc");
+          window.location.href = url_base + "/";
+        }
+      }
+    </script>
+  </body>
+</html>
