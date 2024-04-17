@@ -30,6 +30,7 @@
     </button>
     <script>
       async function register() {
+        document.getElementById("qrcode").innerHTML = "";
         let email = document.getElementById("email").value;
         let url_base = window.location.origin;
         let response = await fetch(url_base + "/resgister/" + email);
